@@ -1,0 +1,111 @@
+  const bankY = finalY + 35 + wordsHeight; // More space after summary and words
+  
+  // Check if there's enough space for bank details on first page
+  // Let's say we need at least 70mm for bank details + footer
+  const spaceNeeded = 70;
+  const remainingSpace = pageHeight - bankY - 30; // Space left on page
+  const hasEnoughSpace = remainingSpace >= spaceNeeded;
+  
+  // If there's not enough space or we have many items (more than 4), move bank details to page 2
+  const moveToPage2 = !hasEnoughSpace || data.items.length > 4;
+  
+  if (!moveToPage2) {
+    // Add bank details on first page with adjusted height
+    addBankAndUPIDetails(doc, data, margin, bankY, currencySymbol, total);
+    
+    // Add footer to first page with good spacing
+    addFooter(doc, 1, data.invoiceNumber, data.invoiceDate, data.clientDetails?.name || "", 2);
+    
+    // Add terms and conditions on a second page
+    doc.addPage('a4', 'portrait');
+    
+    // Terms and conditions title
+    doc.setFontSize(14);
+    doc.setTextColor(85, 55, 155);
+    doc.setFont(undefined, 'bold');
+    doc.text("Terms and Conditions", margin, margin + 20);
+    
+    // Content with consistent font size
+    doc.setFontSize(11);
+    doc.setTextColor(30, 30, 30);
+    doc.setFont(undefined, 'normal');
+    
+    // Always show terms and conditions content - even if empty
+    let terms;
+    if (data.termsAndConditions && data.termsAndConditions.length > 0) {
+      terms = data.termsAndConditions.split('\n');
+    } else {
+      terms = [
+        "1. All payments are due within the timeframe specified on this invoice.",
+        "2. Late payments may be subject to additional fees.",
+        "3. Services are provided as-is without warranty or guarantee.",
+        "4. Disputes must be raised within 7 days of invoice receipt."
+      ];
+    }
+    
+    // Display terms with consistent formatting
+    terms.forEach((term, index) => {
+      const formattedTerm = term.startsWith((index + 1) + ".") ? term : `${index + 1}. ${term}`;
+      const yPos = margin + 35 + (index * 8); // Compact spacing (8mm)
+      
+      if (yPos > pageHeight - 40) {
+        // Skip if we're running out of space
+        return;
+      }
+      
+      doc.text(formattedTerm, margin, yPos);
+    });
+  } else {
+    // Add footer to first page
+    addFooter(doc, 1, data.invoiceNumber, data.invoiceDate, data.clientDetails?.name || "", 2);
+    
+    // Create a second page for bank details and terms
+    doc.addPage('a4', 'portrait');
+    
+    // Add bank details at the top of the second page
+    addBankAndUPIDetails(doc, data, margin, margin + 20, currencySymbol, total);
+    
+    // Terms and conditions title after bank details
+    const termsY = margin + 20 + 55; // After bank details with spacing
+    doc.setFontSize(14);
+    doc.setTextColor(85, 55, 155);
+    doc.setFont(undefined, 'bold');
+    doc.text("Terms and Conditions", margin, termsY);
+    
+    // Content with consistent font size
+    doc.setFontSize(11);
+    doc.setTextColor(30, 30, 30);
+    doc.setFont(undefined, 'normal');
+    
+    // Always show terms and conditions content - even if empty
+    let terms;
+    if (data.termsAndConditions && data.termsAndConditions.length > 0) {
+      terms = data.termsAndConditions.split('\n');
+    } else {
+      terms = [
+        "1. All payments are due within the timeframe specified on this invoice.",
+        "2. Late payments may be subject to additional fees.",
+        "3. Services are provided as-is without warranty or guarantee.",
+        "4. Disputes must be raised within 7 days of invoice receipt."
+      ];
+    }
+    
+    // Display terms with consistent formatting
+    terms.forEach((term, index) => {
+      const formattedTerm = term.startsWith((index + 1) + ".") ? term : `${index + 1}. ${term}`;
+      const yPos = termsY + 15 + (index * 8); // Compact spacing (8mm)
+      
+      if (yPos > pageHeight - 40) {
+        // Skip if we're running out of space
+        return;
+      }
+      
+      doc.text(formattedTerm, margin, yPos);
+    });
+  }
+  
+  // Add footer to last page
+  const totalPages = doc.getNumberOfPages();
+  addFooter(doc, totalPages, data.invoiceNumber, data.invoiceDate, data.clientDetails?.name || "", totalPages);
+  
+  return doc; 

@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-rgb: 255, 255, 255;
+  --primary: #8956FF;
+  --primary-dark: #6A3AE8;
+  --secondary: #FF8C42;
+  --secondary-dark: #F77D32;
+  --purple-light: #EAE2FF;
+  --orange-light: #FFD5B8;
+}
+
+body {
+  color: #333333;
+  background: #f9f9f9;
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+p, span, div, li {
+  color: #4b5563;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
+/* Custom button styles */
+.btn {
+  @apply font-medium rounded-md focus:outline-none transition-all duration-200 ease-in-out;
+}
+
+.btn-primary {
+  @apply bg-primary text-white hover:bg-primary-dark;
+}
+
+.btn-secondary {
+  @apply bg-secondary text-white hover:bg-secondary-dark;
+}
+
+.btn-outline {
+  @apply border border-gray-300 bg-white hover:bg-gray-50;
+}
+
+/* Form styles */
+input, select, textarea {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+input:focus, select:focus, textarea:focus {
+  @apply ring-2 ring-primary ring-opacity-50 border-primary;
+}
+
+/* Card hover effects */
+.hover-card {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.hover-card:hover {
+  @apply transform -translate-y-1 shadow-md;
+}
+
+/* Animation for loading states */
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

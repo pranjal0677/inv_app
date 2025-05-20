@@ -1,0 +1,4 @@
+{
+  "/create-invoice/page": "app/create-invoice/page.js",
+  "/page": "app/page.js"
+}
