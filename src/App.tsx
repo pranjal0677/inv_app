@@ -28,6 +28,17 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
+// Centered Auth Component Wrapper
+const CenteredAuth = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md px-4">
+        {children}
+      </div>
+    </div>
+  );
+};
+
 const App = () => (
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
@@ -44,8 +55,16 @@ const App = () => (
           <Routes>
               {/* Public routes */}
             <Route path="/" element={<Index />} />
-              <Route path="/sign-in/*" element={<SignIn routing="path" path="/sign-in" redirectUrl="/dashboard" />} />
-              <Route path="/sign-up/*" element={<SignUp routing="path" path="/sign-up" redirectUrl="/dashboard" />} />
+              <Route path="/sign-in/*" element={
+                <CenteredAuth>
+                  <SignIn routing="path" path="/sign-in" redirectUrl="/dashboard" />
+                </CenteredAuth>
+              } />
+              <Route path="/sign-up/*" element={
+                <CenteredAuth>
+                  <SignUp routing="path" path="/sign-up" redirectUrl="/dashboard" />
+                </CenteredAuth>
+              } />
               
               {/* Protected routes */}
               <Route path="/dashboard" element={

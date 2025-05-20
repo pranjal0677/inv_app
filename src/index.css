@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -66,4 +65,26 @@
   .card-shadow {
     @apply shadow-lg shadow-purple/5;
   }
+}
+
+/* Clerk Authentication Styling */
+:root {
+  --clerk-width: 500px;
+}
+
+.cl-rootBox, 
+.cl-card, 
+.cl-component,
+.cl-auth-form-box {
+  width: var(--clerk-width) !important;
+  max-width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.cl-component {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
